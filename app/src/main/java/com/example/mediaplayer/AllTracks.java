@@ -198,9 +198,18 @@ public class AllTracks extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        SharedPreferences sp = getSharedPreferences("track", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("last", current + " " + seekBar.getProgress() + " " + mp.getDuration());
+        editor.apply();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
         handler.removeCallbacks(runnable);
         beforeFinish();
         finish();
-        super.onStop();
+        super.onDestroy();
     }
 }
